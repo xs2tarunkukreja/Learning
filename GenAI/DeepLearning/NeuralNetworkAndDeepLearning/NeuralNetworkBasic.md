@@ -68,3 +68,11 @@ Find Derivative of Lost Function with respect to weigths and b
 ![alt text](image-16.png)
 
 # Gradient Descent on m Examples
+![alt text](image-18.png)
+
+
+![alt text](image-19.png)
+There are 2 features. That's why 2 w.
+
+
+https://community.deeplearning.ai/t/derivation-of-dl-dz/165
