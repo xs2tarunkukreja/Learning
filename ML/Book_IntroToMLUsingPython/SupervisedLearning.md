@@ -177,11 +177,105 @@ Strength
     Scale very large dataset and work well with sparse data.
     Easy to understand.
 
-Note - Dataset is large - solver=sag in logistic regression and ridge. SGDClassifier & SGDRegressor Classes are option.
+Weekness
+    If your dataset is highly correlated features then coefficient hard to interpret.
+
+Note - 
+    Dataset is large - solver=sag in logistic regression and ridge. SGDClassifier & SGDRegressor Classes are option.
+    In lower dimension space, other model might yield better generalization performance. 
+    It is good when number of feature set are large.
 
 ## Naive Bayes Classifier
+It is fast to train but generalization performance is slightly worse than linear classifiers.
+
+Reason for fast - They learn parameters by looking at each feature individually and collect simple per-class statistic from each feature.
+
+Three types in scikit-learn - GaussianNB; BernoulliNB; MultinomialNB
+
+GaussianNB can be applied on any continuous data.
+BernoulliNB assume binary data. Used in Text Data Classification.
+MultinomialNB assume count data. Used in Text Data Classification.
+
+BernoulliNB - Count how often every feature of each class is non-zero.
+MultinomialNB takes into account the average value of each feature for each class.
+GaussianNB takes into account the average value as well as standard deviation of each feature for each class.
+
+Formula for MultinomialNB and GaussaianNB is same as Linear but have differnet meaning.
+
+### Strength, Weakness and Parameters
+MultinomialNB and BernoulliNB have single parameter i.e. alpha. 
+    Large alpha, more smoothing, less complex model.
+    It not impact performance but accuracy.
+    
+    This both work on sparse data.
+
+MulinomialNB perform better than BinaryNB.
+
+Strength -
+    They are very fast to train and to predict, 
+    The training procedure is easy to understand. 
+    The models work very well with high-dimensional sparse data and are relatively robust to the parameters. 
+    Naive Bayes models are great baseline models and are often used on very large datasets, where training even a linear model might take too long.
 
 ## Decision Tree
+Widely used model for classification and regression tasks.
+    Learn if/else.
+
+Here data is like you ask if/else question like Is animal have feather?
+                            - Yes - Hawk
+            Yes - Can fly? 
+                            - No - Penguine
+Has Feather 
+                            - No - Bear
+            No - Has Fine ?
+                            - Yes - Dolphine
+
+Leaf conatin answers.
+
+### Building Decision Tree
+2 half-moon shapes - each class have 75 data points.
+In ML settings these questions are called tests.
+For continuous data, question are like "Is feature i larget than value a?"
+Algorithm search over all possible tests and find the one most informative about the target value.
+
+Recursive process - It is repeated until each region in the partition only contains a single target value(A single class or a single regression value). Leaf contain one target is called Pure.
+
+### Controlling Complexity of Decision Tree
+All leaves are pure then it may be overfitting.
+Avoid Strategy - 2 -
+    Pre-pruning - Stopping tree creation early.
+    Post-pruning or pruning - Build complete tree then remove nodes.
+Critria to stop -
+    Maximum depth of tree
+    Maximum number of leaves.
+    Minimum number of point in node for split.
+
+scikit-learn only implements pre-pruning, not post-pruning.
+
+from sklearn.tree import DecisionTreeClassifier
+tree = DecisionTreeClassifier(random_state=0)
+
+tree = DecisionTreeClassifier(max_depth=4, random_state=0)
+
+Visualize Tree -
+    from sklearn.tree import export_graphviz
+    export_graphviz(tree, out_file="tree.dot", class_names=["malignant", "benign"],
+                    feature_names=cancer.feature_names, impurity=False, filled=True)
+
+    import graphviz
+    with open("tree.dot") as f:
+    dot_graph = f.read()
+    graphviz.Source(dot_graph)
+
+Feature importance in trees -
+    Matrix that can help to understand the working of Tree  - Feature Importance - Which rate how important each feature is for decision a tree makes.
+    tree.
+        feature_importances_
+    Create a bar chart for all feature with its value.
+    Always positive.
+
+DecisionTreeRegressor
+Note - The DecisionTreeRegressor (and all other tree-based regression models) is not able to extrapolate, or make predictions outside of the range of the training data.
 
 ## Ensemble of Decision Tree
 
