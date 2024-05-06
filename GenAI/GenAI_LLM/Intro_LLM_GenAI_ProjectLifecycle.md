@@ -117,14 +117,69 @@ Output text is known as Completion.
 
 Full amount of text or memory available to use for prompt is called the context window.
 
+## In Context Learning
 Best approach is to include an example of the task the model to carry out inside the prompt. - It is called in-context learning.
 
+Zero Shot Inference.
+Example - Classify this review: I loved this movie! Sentiment: 
+
+
+One Shot Inference.
+Example - Classify this review: I loved this movie! Sentiment: Positive
+          Classify this review: i don't like this chair. Sentiment:
+
+Few Shot Inference.
+
+Smaller model needs One or Few.
+
+If 5-6 doesn't help then do fine tune.
+
 # Generative Configuration
+Associated configuration parameters that you can use to influence the way that the model makes the final decision about next-word generation. If you've used LLMs in playgrounds such as on the Hugging Face website or an AWS.
+
+## Inference Configuration Parameters
+Examples - Max New Token; Sample Top K; Sample Top P; Temperature; etc.
+
+## Greedy V/S Random Sampling
+output from softmax - word with probability.
+Greedy - Word/Token with highest probability is selected. Here you may have repeative words... and some other concerns.
+
+Random Sampling - It use probability distribution
+Select a token using a random-weighted strategy across the probability of all tokens.
+
+Top K and P are sampling techniques to help limit the random sampling and increase the chance that output will be more sensible.
+
+### Top K Sampling
+Select the output from top k result after applying random weighted strategy using the probability.
+
+### Top P Sampling
+Select an Output using the random-weighted strategy with the top ranked consective results by probability and with cummulative probability <= p.
+
+### Temperature
+Higher the temperature, higher the randomness.
+It is scaling factor that is applied within the final softmax layer of the model that impact the shape of probability distribution of the next token.
+![alt text](image-2.png)
+
 
 # Generative AI Project Lifecycle
+Scope - Define the use case.
+    Good at many task; Good at one task.
+
+Select - Choose an existing model or pretrain your own.
+
+Adapt and Align Model - 
+    Prompt Engineering; Fine Tunning; Align with Human Feedback
+    Evaluate
+
+Application Integration -
+    Optimize and Deploy Model for Inference
+    Augment Model and Build LLM Powered Application
+
 
 # Guideline before starting the labs
+aws s3 cp --recursive s3://dlai-generative-ai/labs/w1-549876/ ./
 
 # Labs walkthrough
+Python3
+pip
 
-# 
