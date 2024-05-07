@@ -277,12 +277,159 @@ Feature importance in trees -
 DecisionTreeRegressor
 Note - The DecisionTreeRegressor (and all other tree-based regression models) is not able to extrapolate, or make predictions outside of the range of the training data.
 
+### Strength, Weakness and Parameters
+Parameters -
+    Pre-pruning parameter - max_depth; max_leaf_nodes; min_sample_leaf.
+
+Advantages
+    Resulting model can be visualized and understand by non-expert.
+    Algorithm are completely invariant to scale of the data.
+    No normalization or standardization of feature is needed for decision tree algorithm.
+Weakness 
+    Even it can be overfitted.
+
+Note: Ensemble Decision Tree is used in practice.
+
 ## Ensemble of Decision Tree
+Ensemble are method that combine multiple ML Algorithms.
+
+### Random Forest
+Solve overfitting problem.
+Collection of Decision Tree.
+Concept - One Decision Tree Overfit in one area.. another in another area. Reduce the overfitting by averaging this.
+
+By 2 ways in which trees are randomized
+    Select different data points.
+    Selecting feature in each split test.
+
+#### Building Random Forest
+Select number of tree - n_estimators in RandomForestRegressor or Random ForestClassifier
+
+Now prepare bootstrap sample from sample data sets. In bootstrap - few data points from sample data + few are repeated. So, count remain same. Example - [a,b,c,d] => [b,b,c,a]
+
+Now create tree. Instead of selecting best test, in each node, algorithm select a subset of features and select best test based on those subset features.
+    max_features parameter.
+
+high max_feature means trees will be quite similar.
+
+#### Result
+Regression - Average of all trees.
+Classification - A soft voting.
+
+#### Code
+from sklearn.ensemble import RandomForestClassifier
+forest = RandomForestClassifier(n_estimators=5, random_state=2)
+
+Often default parameters work fine.
+
+#### Strength, Weakness and Parameters
+Strength
+    Most widely used algorithm in regression and classifier.
+    Perform well without tuning.
+Weakness
+    Timeconsuming to build on large dataset.
+    Don't perform well on very high dimensional, sparse data and text.
+    more memory and time as compare to linear.  
+
+Parameters 
+    n_jobs - Use number of cores, || processing. -1 means use all cores.
+    n_estimator - Large is better.
+    max_features - smaller reduce overfitting. Ideal = sqrt(n_features) for classification; log2(n_features) for regression.
+    max_depth 
+
+### Gradient Boosted Decision Tree
+It build tree in serial manner, where each tree tries to correct the mistake of last tree.
+No randomization and use strong pre-pruning.
+Very shallow tree of depth 1 to 5. Small memory and fast prediction.
+Logic - combine weak learner or shallow tree. each tree make prediction on part of data. So, more tree improve.
+
+Note: Widely used in industry.
+
+Here parameters are sensitive. We need to set them correctly.
+
+learning_rate - how stronly next tree try to correct previous tree.
+
+// By default, 100 trees of maximum depth 3 and a learning rate of 0.1 are used
+from sklearn.ensemble import GradientBoostingClassifier
+gbrt = GradientBoostingClassifier(random_state=0)
+
+Overfitting reduce - By apply strong pre-pruning by limiting maximum depth or lower learning_rate.
+
+#### Strength, Weakness and Parameters
+Strength
+    Most powerful and widely used.
+
+Drawback
+    Careful tuning of parameters are required.
+    Not work with high Dimension and sparse data.
+
+Parameters
+    n_estimators - depends on memory and time you have.
+    learning_rate
 
 ## Kernelized Support Vector Machine
+Kernelized Support Vector Machine is an extension of SVM for more complex model.
+
+### Linear models and nonlinear features
+suppose data distribution is such that it can't be categorized by a line for feature1 and feature2.
+now add one more dimension - f1^2
+
+Now linear SVM model is not linear any more. It is not a line.. it is ellipse.
+
+### Kernel Trick
+Adding nonlinear features to the representation of data can make linear model more powerful. But when feature count is 100 or more then it is difficult to choose nonlinear feature.
+
+it works by directly computing the distance (more precisely, the scalar products) of the data points for the expanded feature representation, without ever actually computing the expansion.
+
+There are two ways to map your data into a higher-dimensional space that are commonly used with support vector machines: 
+the polynomial kernel, which computes all possible polynomials up to a certain degree of the original features (like feature1 ** 2 * feature2 ** 5); 
+the radial basis function (RBF) kernel, also known as the Gaussian kernel. The Gaussian kernel is a bit harder to explain, as it corresponds to an infinite-dimensional feature space. One way to explain the Gaussian kernel is that
+it considers all possible polynomials of all degrees, but the importance of the features decreases for higher degrees.
+
+### Understanding SVM
+During training, the SVM learns how important each of the training data points is to represent the decision boundary between the two classes. Typically only a subset of the training points matter for defining the decision boundary: the ones that lie on the border between the classes. These are called support vectors and give the support vector machine its name.
+
+To make a prediction for a new point, the distance to each of the support vectors is measured. A classification decision is made based on the distances to the support vector, and the importance of the support vectors that was learned during training (stored in the dual_coef_ attribute of SVC).
+
+The distance between data points is measured by the Gaussian kernel:
+krbf(x1, x2) = exp (ɣǁx1 - x2ǁ2)
+Here, x1 and x2 are data points, ǁ x1 - x2 ǁ denotes Euclidean distance, and ɣ (gamma)
+is a parameter that controls the width of the Gaussian kernel.
+
+### Tunning SVM Parameters
+C - regularization parameter
+gamma - controls the width of the Gaussian kernel. It determines the scale of what it
+means for points to be close together.
+
+### overfitting - How to solve?
+Preprocessing data - Rescale features to bring them on one scale.
+    Use MinMaxScaler
+
+### Strength, Weakness and parameters
+Strength -
+    Complex boundaries
+    Work well with low as well as high dimension.
+
+Weakness -
+    Don't work with large data sample.
+    Preprocessing and tuning of parameter need to be done carefully.
+    SVM model are hard to inspect.
+
+We should try if all parameters are in same scale.
+
 
 ## Neural Network - Deep Learning
-
-
+NeuralNetwork.md
 
 # Uncertainty Estimate from Classifiers
+scikit-learn, classifier also provide uncertainty estimate of predictions.
+    decision_function and predict_proba
+
+gbrt = GradientBoostingClassifier(random_state=0)
+gbrt.fit(X_train, y_train_named)
+
+gbrt.decision_function(X_test)
+gbrt.predict_proba(X_test)
+
+## Uncertainity in MultiClass Classification
+Same functions. 
