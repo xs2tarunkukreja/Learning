@@ -99,11 +99,16 @@ W will have shape (input_dimension, 16)
 
 Epoch means iteration.
 
+ClassificationMovieReview.ipynb
+
 # Why are activation function necessary?
 output = dot(W, input) + b // Without activation function. It learn only linear transformation.
 Hypothesis Space would be 16 D only. Even if we increase hidden layer, it still remain same space 16D.
 
 We need non-linearity. 
+
 # Classifying Newswire: multi-class classification
+ClassifyingNewswireMulticlass.ipynb
 
 # Predicting House Price: Regression 
+PredictingHousePrice.ipynb
