@@ -12,9 +12,19 @@ x3 -- w3
 
 x4 -- w4
 
+f = activation function - Which neuron or node to activate.
+
+Random weights decided.
+
+Weigth or Kernet different for different Neuron. 32 output = 32 nodes = 32 kernels.
+
 
 ## Process -
     Inputs + Weights > Model > Results > Performace > Update Weights and rerun.
+
+    Weight matrix is like filters.
+    Minimize Loss Function - How ?
+        Differentitation = 0
 
 ## Back Propagation
 After getting output, we calculate loss and Back Propogate to adjust all the weights to reduce loss.
@@ -28,6 +38,10 @@ Generate Models
 
 Inputs > Convolution (N Layers) > Pooling (N Layers) > Fully Connected > Output
 <---          Feature Extraction                 ---> <--  Classification   -->
+
+Convolution - Some operation between image and kernel
+Pooling - Aggregate operation within window size. One element come under aggregation under once only.
+    4*4 - Windo 2*2 = O/P 2*2
 
 ## What is wrong with Fully Connected NN?
 image is 2D grid of pixels. 
@@ -52,8 +66,13 @@ Dilated Convolution: Kernel is spread out, step > 1 between kernel elements.
  s is stride.
 
  ## Activation Function
- Sigmoid
- tanh
+ Sigmoids - Classification
+    Don't use it in hidden layer. Only in o/p when classification.
+    Gradient Vanish Problem - Weight matrix = 0 means no information.
+        O/P of 2nd layer will be w1*w2 and so on..
+        Derivative of Sigmoid - It remain at 0 .. In center, it is 0.25 max.
+        even - o.25 ^ n = 0.
+ tanh - Same as Sigmoid
  ReLU
  Leaky ReLU
  Maxout
@@ -81,6 +100,8 @@ Dilated Convolution: Kernel is spread out, step > 1 between kernel elements.
  Mean Absolute Error
 
  # CNN
+ Data - MINST Dataset - Handwritten digits.
+
  from keras.datasets import mnist
  (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
@@ -90,7 +111,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
 
 batch_size = 128
-num_classes = 10
+num_classes = 10 // Here 0 to 9 digits then 10 outputs - 1 per class.
 epochs = 5
 
 img_rows, img_col = 28, 28 # Image Size
@@ -104,12 +125,14 @@ x_test /= 255
 
 model = Sequential()
 
+// 2 Types of model - Sequential and Functional
+//      Functional - DAG 1 > 2 and 1 > 3 such connection feasible.
+//      Sequential - 0 > 1 > 2      
+
 #Adding our first convolutional layer
 #with activation ReLU
 #This will produce 32 feature maps
-model.add(Conv2D(32, kernel_size=(3, 3),
-                 activation='relu',
-                 input_shape=input_shape))
+model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=input_shape))
 model.add(Conv2D(64, (3, 3), activation='relu'))# 3*3*1
 model.add(MaxPooling2D(pool_size=(2, 2)))
 #Adding Dropout for regularisation
@@ -132,6 +155,14 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               metrics=['accuracy'])
 
 model.summary()
+
+// Parameters - weights + B. 784 I/P 128 Nodes = 784*128 + 128 = 100480
+// epochs - local minima and global minima - GM is preferred.
+// batch - Back propagation happen after a batch.. not after each row.
+// dropout layer - Regularization - Reduce overfitting or underfitting
+//    L1 - Few coeff = 0. Reducing number of features.
+//    L2 - All coeff near to zero.
+// Why overfitting happen? If number of features are high.
 
 Image (28*28*1) > Convolutional (32 Channels) (26*26*32) > (64 Channels (24*24*64)> 64 Channels(12*12*64)) Max Pooling 9 (2*2) 
 

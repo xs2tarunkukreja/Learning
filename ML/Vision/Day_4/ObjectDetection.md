@@ -1,8 +1,14 @@
 # Object Detection
+Image > Classification CAT > Classification and Localization - We identify cat and tell position in ractangle > Object Detection ( Localization when we have lots of animals/objects in image) > Instance segmentations (exact shape and position of objects)
+
 ## Sliding Window Algorithm
 For each of this window, we would normally take window region and apply image classifier to determine if the window has an object that interest us. Problem -
     Object at different scales and orientation.
     Very Slow
+
+Now create window of differnet size.
+
+Also we can reduce the image size.
 
 ## Image Pyramid
 x*y image to /2 > /4 > /8 so on.
