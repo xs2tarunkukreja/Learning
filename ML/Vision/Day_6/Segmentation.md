@@ -41,3 +41,19 @@ MaskFRCNN - Mask Faster RCNN
 Another Approach - U-Net + Watershed model
     Intensity Plot of Image > Fill Water Here.. If water goes through connecting top of one/another from one hole to another... it means 2 images.
     We can use texture, color or anything change to differentiate.
+
+
+## Generic
+New Dataset is small and similar to original data set
+    Data is small so not fine tune ConvNet due to overfitting issue.
+    Just train for linear classifier as dataset is similar.
+
+New dataset is large and similar to original data set
+    We try to fine tune.
+
+New Dataset is small and different from original data set
+    Since data is small, it is best likely to only train a linear classifier.
+    Dataset is different, it might not be best train the classifier from top of network, which contain datset specific feature. Instead it is best to train SVM Classifier from activation somewhere earlier in network.
+
+New dataset is large and different from original data set
+    we can afford to train ConvNet from scratch. Just start from pre-trained weight.
