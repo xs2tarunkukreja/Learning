@@ -4,3 +4,6 @@ Rⁿ
 θ
 ∈
 ŷ
+∀ - For all
+
+∃ - For one exist
