@@ -147,8 +147,7 @@ Because a series of models are built, these methods are much more computationall
 One particular method of this kind is recursive feature elimination (RFE), which starts with all features, builds a model, and discards the least important feature according to the model. Then a new model is built using all but the discarded feature, and so on until only a prespecified number of features are left.
 
 from sklearn.feature_selection import RFE
-select = RFE(RandomForestClassifier(n_estimators=100, random_state=42),
-n_features_to_select=40)
+select = RFE(RandomForestClassifier(n_estimators=100, random_state=42), n_features_to_select=40)
 select.fit(X_train, y_train)
 
 # Utilizing Expert Knowledge
